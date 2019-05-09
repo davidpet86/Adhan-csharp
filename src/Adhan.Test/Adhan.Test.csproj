@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="TimeZoneConverter\Aliases.csv.gz" />
+    <None Remove="TimeZoneConverter\Mapping.csv.gz" />
+    <None Remove="TimeZoneConverter\RailsMapping.csv.gz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TimeZoneConverter\Aliases.csv.gz" />
+    <EmbeddedResource Include="TimeZoneConverter\Mapping.csv.gz" />
+    <EmbeddedResource Include="TimeZoneConverter\RailsMapping.csv.gz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Adhan\Adhan.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Times\Doha-Qatar.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Times\Dubai-Gulf.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Times\Kuwait City-Kuwait.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Times\London-MoonsightingCommittee.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Times\Makkah-UmmAlQura.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Times\Singapore-Singapore.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
