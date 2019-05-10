@@ -1,12 +1,38 @@
 ﻿using Batoulapps.Adhan.Internal;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Adhan.Test.Internal
 {
     public class TestUtils
     {
+        /// <summary>
+        /// Gets a TimeZoneInfo object based on the current OS Platform 
+        /// </summary>
+        /// <param name="ianaTimezone">A IANA standard time zone string</param>
+        /// <returns>TimeZoneInfo object if matched, otherwise null</returns>
+        public static TimeZoneInfo GetTimeZone(string ianaTimezone)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                bool result = TimeZoneConverter.TZConvert.TryIanaToWindows(ianaTimezone, out string windowsTimeZoneId);
+                if (result == false)
+                {
+                    return null;
+                }
+
+                return TimeZoneInfo.FindSystemTimeZoneById(windowsTimeZoneId);
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                return TimeZoneInfo.FindSystemTimeZoneById(ianaTimezone);
+            }
+
+            return null;
+        }
+
         public static DateTime MakeDate(int year, int month, int day)
         {
             return MakeDate(year, month, day, 0, 0, 0);
@@ -46,14 +72,5 @@ namespace Adhan.Test.Internal
             DateTime calendar = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
             return calendar.AddDays(numberOfDayOffset);
         }
-
-        //static DateTime MakeDateWithOffset(int year, int month, int day, int offset, int unit)
-        //{
-        //    Calendar calendar = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
-        //    //noinspection MagicConstant
-        //    calendar.set(year, month - 1, day);
-        //    calendar.add(unit, offset);
-        //    return calendar.getTime();
-        //}
     }
 }

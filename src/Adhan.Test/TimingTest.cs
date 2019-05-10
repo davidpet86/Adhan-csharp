@@ -57,22 +57,16 @@ namespace Adhan.Test
             }
         }
 
-        private long GetDifferenceInMinutes(DateTime prayerTime, string jsonDate, string jsonTime, string timezone)
+        private long GetDifferenceInMinutes(DateTime prayerTime, string jsonDate, string jsonTime, string ianaTimezone)
         {
-            bool result = TimeZoneConverter.TZConvert.TryIanaToWindows(timezone, out string windowsTimeZoneId);
-            if (result == false)
-            {
-                return 0;
-            }
-
-            TimeZoneInfo windowsTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(windowsTimeZoneId);
-            if (windowsTimeZoneId == null)
+            TimeZoneInfo timezone = TestUtils.GetTimeZone(ianaTimezone);
+            if (timezone == null)
             {
                 return 0;
             }
 
             DateTime parsedDate = DateTime.Parse($"{jsonDate} {jsonTime}");
-            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(parsedDate, windowsTimeZoneInfo);
+            DateTime utcDateTime = TimeZoneInfo.ConvertTimeToUtc(parsedDate, timezone);
 
             return (long) prayerTime.Subtract(utcDateTime).TotalMinutes;
         }

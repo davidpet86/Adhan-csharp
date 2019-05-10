@@ -33,8 +33,7 @@ namespace Adhan.Test
         [TestMethod]
         public void PrayerTimesAmericaNewYork()
         {
-            string windowsTimeZoneId = TimeZoneConverter.TZConvert.IanaToWindows("America/New_York");
-            TimeZoneInfo windowsTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(windowsTimeZoneId);
+            TimeZoneInfo timezone = TestUtils.GetTimeZone("America/New_York");
 
             DateComponents date = new DateComponents(2015, 7, 12);
             CalculationParameters calcParams = CalculationMethod.NORTH_AMERICA.GetParameters();
@@ -43,31 +42,30 @@ namespace Adhan.Test
             Coordinates coordinates = new Coordinates(35.7750, -78.6336);
             PrayerTimes prayerTimes = new PrayerTimes(coordinates, date, calcParams);
 
-            Assert.IsTrue(GetHour(prayerTimes.Fajr, windowsTimeZoneInfo) == "04:42 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Sunrise, windowsTimeZoneInfo) == "06:08 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, windowsTimeZoneInfo) == "01:21 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Asr, windowsTimeZoneInfo) == "06:22 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Maghrib, windowsTimeZoneInfo) == "08:32 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Isha, windowsTimeZoneInfo) == "09:57 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Fajr, timezone) == "04:42 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Sunrise, timezone) == "06:08 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, timezone) == "01:21 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Asr, timezone) == "06:22 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Maghrib, timezone) == "08:32 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Isha, timezone) == "09:57 PM");
         }
 
         [TestMethod]
         public void OffsetTests()
         {
-            string windowsTimeZoneId = TimeZoneConverter.TZConvert.IanaToWindows("America/New_York");
-            TimeZoneInfo windowsTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(windowsTimeZoneId);
+            TimeZoneInfo timezone = TestUtils.GetTimeZone("America/New_York");
 
             DateComponents date = new DateComponents(2015, 12, 1);
             Coordinates coordinates = new Coordinates(35.7750, -78.6336);      
             CalculationParameters parameters = CalculationMethod.MUSLIM_WORLD_LEAGUE.GetParameters();
 
             PrayerTimes prayerTimes = new PrayerTimes(coordinates, date, parameters);
-            Assert.IsTrue(GetHour(prayerTimes.Fajr, windowsTimeZoneInfo) == "05:35 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Sunrise, windowsTimeZoneInfo) == "07:06 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, windowsTimeZoneInfo) == "12:05 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Asr, windowsTimeZoneInfo) == "02:42 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Maghrib, windowsTimeZoneInfo) == "05:01 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Isha, windowsTimeZoneInfo) == "06:26 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Fajr, timezone) == "05:35 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Sunrise, timezone) == "07:06 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, timezone) == "12:05 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Asr, timezone) == "02:42 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Maghrib, timezone) == "05:01 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Isha, timezone) == "06:26 PM");
 
             parameters.Adjustments.Fajr = 10;
             parameters.Adjustments.Sunrise = 10;
@@ -77,47 +75,45 @@ namespace Adhan.Test
             parameters.Adjustments.Isha = 10;
 
             prayerTimes = new PrayerTimes(coordinates, date, parameters);
-            Assert.IsTrue(GetHour(prayerTimes.Fajr, windowsTimeZoneInfo) == "05:45 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Sunrise, windowsTimeZoneInfo) == "07:16 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, windowsTimeZoneInfo) == "12:15 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Asr, windowsTimeZoneInfo) == "02:52 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Maghrib, windowsTimeZoneInfo) == "05:11 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Isha, windowsTimeZoneInfo) == "06:36 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Fajr, timezone) == "05:45 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Sunrise, timezone) == "07:16 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, timezone) == "12:15 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Asr, timezone) == "02:52 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Maghrib, timezone) == "05:11 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Isha, timezone) == "06:36 PM");
 
             parameters.Adjustments = new PrayerAdjustments();
             prayerTimes = new PrayerTimes(coordinates, date, parameters);
-            Assert.IsTrue(GetHour(prayerTimes.Fajr, windowsTimeZoneInfo) == "05:35 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Sunrise, windowsTimeZoneInfo) == "07:06 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, windowsTimeZoneInfo) == "12:05 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Asr, windowsTimeZoneInfo) == "02:42 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Maghrib, windowsTimeZoneInfo) == "05:01 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Isha, windowsTimeZoneInfo) == "06:26 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Fajr, timezone) == "05:35 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Sunrise, timezone) == "07:06 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, timezone) == "12:05 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Asr, timezone) == "02:42 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Maghrib, timezone) == "05:01 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Isha, timezone) == "06:26 PM");
         }
 
         [TestMethod]
         public void MoonsightingMethod()
         {
-            string windowsTimeZoneId = TimeZoneConverter.TZConvert.IanaToWindows("America/New_York");
-            TimeZoneInfo windowsTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(windowsTimeZoneId);
+            TimeZoneInfo timezone = TestUtils.GetTimeZone("America/New_York");
 
             DateComponents date = new DateComponents(2016, 1, 31);
             Coordinates coordinates = new Coordinates(35.7750, -78.6336);
             PrayerTimes prayerTimes = new PrayerTimes(
                 coordinates, date, CalculationMethod.MOON_SIGHTING_COMMITTEE.GetParameters());
 
-            Assert.IsTrue(GetHour(prayerTimes.Fajr, windowsTimeZoneInfo) == "05:48 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Sunrise, windowsTimeZoneInfo) == "07:16 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, windowsTimeZoneInfo) == "12:33 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Asr, windowsTimeZoneInfo) == "03:20 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Maghrib, windowsTimeZoneInfo) == "05:43 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Isha, windowsTimeZoneInfo) == "07:05 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Fajr, timezone) == "05:48 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Sunrise, timezone) == "07:16 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, timezone) == "12:33 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Asr, timezone) == "03:20 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Maghrib, timezone) == "05:43 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Isha, timezone) == "07:05 PM");
         }
 
         [TestMethod]
         public void MoonsightingMethodHighLat()
         {
-            string windowsTimeZoneId = TimeZoneConverter.TZConvert.IanaToWindows("Europe/Oslo");
-            TimeZoneInfo windowsTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(windowsTimeZoneId);
+            TimeZoneInfo timezone = TestUtils.GetTimeZone("Europe/Oslo");
         
             // Values from http://www.moonsighting.com/pray.php
             DateComponents date = new DateComponents(2016, 1, 1);
@@ -127,12 +123,12 @@ namespace Adhan.Test
 
             PrayerTimes prayerTimes = new PrayerTimes(coordinates, date, parameters);
 
-            Assert.IsTrue(GetHour(prayerTimes.Fajr, windowsTimeZoneInfo) == "07:34 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Sunrise, windowsTimeZoneInfo) == "09:19 AM");
-            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, windowsTimeZoneInfo) == "12:25 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Asr, windowsTimeZoneInfo) == "01:36 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Maghrib, windowsTimeZoneInfo) == "03:25 PM");
-            Assert.IsTrue(GetHour(prayerTimes.Isha, windowsTimeZoneInfo) == "05:02 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Fajr, timezone) == "07:34 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Sunrise, timezone) == "09:19 AM");
+            Assert.IsTrue(GetHour(prayerTimes.Dhuhr, timezone) == "12:25 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Asr, timezone) == "01:36 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Maghrib, timezone) == "03:25 PM");
+            Assert.IsTrue(GetHour(prayerTimes.Isha, timezone) == "05:02 PM");
         }
 
         [TestMethod]
