@@ -1,5 +1,7 @@
 # Adhan CSharp
 
+[![badge-travis][]][travis] 
+
 Adhan CSharp is a well tested and well documented library for calculating Islamic prayer times. Adhan CSharp is written to be compatible with .NET Core. It has a small method overhead, and has no external dependencies.
 
 All astronomical calculations are high precision equations directly from the book [“Astronomical Algorithms” by Jean Meeus](http://www.willbell.com/math/mc1.htm). This book is recommended by the Astronomical Applications Department of the U.S. Naval Observatory and the Earth System Research Laboratory of the National Oceanic and Atmospheric Administration.
@@ -131,3 +133,6 @@ static void Main(string[] args)
      Console.WriteLine("Isha   : " + TimeZoneInfo.ConvertTimeFromUtc(prayerTimes.Isha, easternTime));
 }
 ```
+
+[badge-travis]: https://travis-ci.org/davidpet86/Adhan-csharp.svg?branch=master
+[travis]: https://travis-ci.org/davidpet86/Adhan-csharp
